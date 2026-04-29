@@ -68,6 +68,34 @@ body {
     100% { transform: translateY(0); opacity: 1; }
 }
 
+@keyframes typingDot {
+    0%, 20% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-4px); opacity: 1; }
+    80%, 100% { transform: translateY(0); opacity: 0.5; }
+}
+
+.typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px;
+}
+
+.typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-main);
+    border-radius: 50%;
+    animation: typingDot 1.4s infinite ease-in-out both;
+}
+
+.dark-mode .typing-indicator span {
+    background-color: var(--text-main);
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
 /* Base Components */
 .btn {
     display: inline-flex;
