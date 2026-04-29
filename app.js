@@ -49,32 +49,32 @@ const QUIZ_BANK = {
 const LECTURES = {
     'Matematik': { 
         title: 'Tam Sayılar ve Kesirler', 
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video: 'https://www.youtube.com/embed/8mve0UoSxTo',
         desc: 'Sayıları birbirine bölerek kesirli ifadeler inşa edebiliriz. Tam sayıların birleşimi her zaman eğlencelidir!' 
     },
     'Türkçe': { 
         title: 'Paragrafta Anlam', 
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video: 'https://www.youtube.com/embed/5D34CAn9s2g',
         desc: 'Okuduğunu anlamak tüm derslerin temelidir. Ana düşünceyi bulmak için giriş ve sonuç cümlelerine dikkat edin.' 
     },
     'İngilizce': { 
         title: 'Daily Routine', 
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video: 'https://www.youtube.com/embed/juKd26qkNAw',
         desc: 'Günlük yaşantımızda kullandığımız eylemleri (I wake up, I go to school) öğreniyoruz. Pratiksiz dil olmaz!' 
     },
     'Fen Bilimleri': { 
         title: 'Hücre Bölünmesi', 
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ', 
+        video: 'https://www.youtube.com/embed/w77zPAtVTuI', 
         desc: 'Canlıların en temel yapı taşı olan hücre, mitoz ve mayoz bölünme ile nasıl çoğalır? Birlikte öğrenelim.' 
     },
     'Sosyal Bilgiler': { 
         title: 'İklim ve İnsan', 
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video: 'https://www.youtube.com/embed/QbgE0uI6zG4',
         desc: 'Yaşadığımız coğrafya hayatımızı nasıl etkiler? İklimin evlerimize, yiyeceklerimize ve kıyafetlerimize etkilerini inceliyoruz.' 
     },
     'Din Kültürü': { 
         title: 'Değerler Eğitimi', 
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video: 'https://www.youtube.com/embed/3y88bM6xKbc',
         desc: 'Paylaşmak, dürüstlük ve yardımseverlik gibi erdemlerin toplumsal yaşamdaki yeri ve önemini kavrıyoruz.' 
     }
 };
@@ -322,11 +322,28 @@ const CourseView = () => {
     `;
 };
 
+window.playVideo = function(videoUrl) {
+    const container = document.getElementById('video-container');
+    if(!container) return;
+    
+    const iframe = document.createElement('iframe');
+    iframe.setAttribute('width', '100%');
+    iframe.setAttribute('height', '210');
+    iframe.setAttribute('src', videoUrl + '?autoplay=1&rel=0&modestbranding=1');
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', 'true');
+    iframe.style.cssText = 'display:block; width:100%; aspect-ratio:16/9; border:none;';
+    
+    container.innerHTML = '';
+    container.appendChild(iframe);
+}
+
 const LectureView = () => {
     const subject = routeParams.subject;
     const lec = LECTURES[subject] || {
         title: 'Genel Tekrar',
-        video: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        video: 'https://www.youtube.com/embed/8mve0UoSxTo',
         desc: 'Seçili ders için henüz özel bir eğitim modülü yüklenmedi. Ancak bu temel videoyu izleyerek giriş yapabilirsin.'
     };
 
@@ -336,7 +353,7 @@ const LectureView = () => {
             <div style="margin-top:20px;">
                 <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:15px;">${lec.title}</h2>
                 <div id="video-container" style="border-radius:var(--radius-lg); overflow:hidden; border:2px solid var(--border-color); margin-bottom:20px; background: linear-gradient(135deg, var(--secondary), var(--accent-purple)); text-align: center; color: white;">
-                    <div style="padding: 40px 20px; cursor:pointer;" onclick="document.getElementById('video-container').innerHTML = \`<iframe width='100%' height='210' src='${lec.video}?autoplay=1' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen style='display:block; width:100%; aspect-ratio:16/9; border:none;'></iframe>\`">
+                    <div style="padding: 40px 20px; cursor:pointer;" onclick="playVideo('${lec.video}')">
                         <div style="font-size:4rem; margin-bottom:10px;">
                             <ion-icon name="play-circle"></ion-icon>
                         </div>
@@ -436,6 +453,14 @@ const ProfileView = () => `
         </div>
 
         <h3 style="margin-bottom:15px;">Ayarlar</h3>
+        
+        <div style="background:var(--bg-secondary); padding:15px; border-radius:var(--radius-lg); margin-bottom:15px; border:2px solid var(--border-color); text-align:left;">
+            <h4 style="margin-bottom:5px; font-size:1rem;">Gemini API Ayarları</h4>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:10px;">AI Koçunun sağlıklı çalışması için kendi Google AI Studio API anahtarınızı girin.</p>
+            <input type="password" id="api-key-input" class="input-glass" style="margin-bottom:10px; padding:10px; width:100%;" placeholder="AIzaSy..." value="${State.progress.apiKey || ''}">
+            <button class="btn btn-primary" style="width:100%; font-size:0.9rem; padding:10px;" onclick="saveApiKey()">Anahtarı Kaydet</button>
+        </div>
+
         <button class="btn btn-outline" style="width:100%; justify-content:space-between; margin-bottom:15px;" onclick="State.toggleDarkMode()">
             <span><ion-icon name="moon"></ion-icon> Karanlık Mod</span>
             <span style="font-weight:900; color:var(--primary);">${State.progress.dark_mode ? 'AÇIK' : 'KAPALI'}</span>
@@ -448,6 +473,14 @@ const ProfileView = () => `
         ${BottomNav()}
     </div>
 `;
+
+window.saveApiKey = () => {
+    const inp = document.getElementById('api-key-input');
+    if(!inp) return;
+    State.progress.apiKey = inp.value.trim();
+    State.save();
+    alert('API Anahtarı başarıyla kaydedildi!');
+}
 
 // --- GEMINI AI CHAT SYSTEM ---
 let chatLog = [
@@ -488,8 +521,11 @@ window.sendAIGeminiMessage = async () => {
     inp.value = '';
     renderSingleMessage(userMsg);
 
-    // Check Key - Hardcoded user provided key
-    const apiKey = "AIzaSyBo-bnojM9qgb8MKRDmpiOy0wuk0MWEjFc";
+    // Check Key - Allow user provided key or fallback to a default one (which might be expired)
+    let apiKey = State.progress.apiKey;
+    if (!apiKey) {
+        apiKey = "AIzaSyBo-bnojM9qgb8MKRDmpiOy0wuk0MWEjFc"; 
+    }
 
     // Typing indication
     const typingMsg = { sender: 'ai', id: 'typing' };
@@ -508,7 +544,10 @@ window.sendAIGeminiMessage = async () => {
         });
         const data = await res.json();
         
-        if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+        if (data.error) {
+            console.warn("API Error:", data.error);
+            finalReply = `<em>(Google API Hatası)</em><br/><strong>Hata Kodu:</strong> ${data.error.code}<br/><strong>Mesaj:</strong> ${data.error.message}<br/><br/>Lütfen Profil sayfasından geçerli bir API anahtarı girdiğinizden emin olun.`;
+        } else if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
             finalReply = data.candidates[0].content.parts[0].text.replace(/\n/g, '<br/>');
         } else {
             console.warn("API Error or block:", data);

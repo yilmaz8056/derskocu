@@ -1,9 +1,9 @@
-const CACHE_NAME = 'derskocu-premium-v5';
+const CACHE_NAME = 'derskocu-premium-v6';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './style.css?v=5',
-    './app.js?v=5',
+    './style.css?v=6',
+    './app.js?v=6',
     './manifest.json',
     'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&display=swap'
 ];
