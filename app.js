@@ -335,12 +335,14 @@ const LectureView = () => {
             ${Header(subject, true)}
             <div style="margin-top:20px;">
                 <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:15px;">${lec.title}</h2>
-                <div style="border-radius:var(--radius-lg); overflow:hidden; border:2px solid var(--border-color); margin-bottom:20px; background: linear-gradient(135deg, var(--secondary), var(--accent-purple)); padding: 40px 20px; text-align: center; color: white;">
-                    <div style="font-size:4rem; margin-bottom:10px; cursor:pointer;" onclick="alert('Video sunucusu bağlantısı başarılı! Sistem simülasyonu çalışıyor.')">
-                        <ion-icon name="play-circle"></ion-icon>
+                <div id="video-container" style="border-radius:var(--radius-lg); overflow:hidden; border:2px solid var(--border-color); margin-bottom:20px; background: linear-gradient(135deg, var(--secondary), var(--accent-purple)); text-align: center; color: white;">
+                    <div style="padding: 40px 20px; cursor:pointer;" onclick="document.getElementById('video-container').innerHTML = \`<iframe width='100%' height='210' src='${lec.video}?autoplay=1' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen style='display:block; width:100%; aspect-ratio:16/9; border:none;'></iframe>\`">
+                        <div style="font-size:4rem; margin-bottom:10px;">
+                            <ion-icon name="play-circle"></ion-icon>
+                        </div>
+                        <h3 style="font-weight:800; font-size:1.2rem;">${lec.title} Eğitimi</h3>
+                        <p style="font-size:0.9rem; opacity:0.8;">İzlemek için dokun</p>
                     </div>
-                    <h3 style="font-weight:800; font-size:1.2rem;">${lec.title} Eğitimi</h3>
-                    <p style="font-size:0.9rem; opacity:0.8;">Dokun ve İzle (Yerel PWA Modu)</p>
                 </div>
                 <p style="font-size:1.1rem; line-height:1.6; color:var(--text-main);">${lec.desc}</p>
                 
